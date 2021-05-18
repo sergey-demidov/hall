@@ -1,27 +1,41 @@
-# Vue 3 + Typescript + Vite
+### ТЗ:
+Есть схема некоего зала (театр, стадион, etc). Схема описывается в виде массива мест следующего вида:
+```
+[
+  { id: 1, pos_x: 1, pos_y: 1, color: '#ff0000'},
+  { id: 2, pos_x: 1, pos_y: 2, color: '#002300'},
+  { id: 3, pos_x: 1, pos_y: 3, color: '#0000ff'},
 
-This template should help get you started developing with Vue 3 and Typescript in Vite.
+  { id: 4, pos_x: 2, pos_y: 1, color: '#ffff00'},
+  { id: 5, pos_x: 2, pos_y: 2, color: '#ffff00'},
+  { id: 6, pos_x: 2, pos_y: 3, color: '#ffff00'}
+]
+```
+Нужно создать vue-компонент, который будет отрисовывать схему зала на canvas на основе такого массива.
 
-## Recommended IDE Setup
+Требования к функционалу:
 
-[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
+1. canvas должен занимать всю доступную область и менять свой размер при изменении доступной области.
+2. нужно реализовать навигацию по схеме: изменение масштаба и перемещение по схеме. Она должна работать как на десктопе (мышь), так и на мобильных устройствах (тачскрин).
+3. Клик по месту на схеме зала должен возвращать id места, по которому был клик.
+4. Компонент должен реагировать на изменение массива мест: например, появление новых компонентов или изменение цвета мест.
+5. Следует предусмотреть тот факт, что может быть много (до 10 тысяч), и схема не должна тормозить.
 
-### If Using `<script setup>`
 
-[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
+схема зала - это например схема зала в кинотеатре
 
-## Type Support For `.vue` Imports in TS
+___
+##### Реализован базовый функционал. 
+1. Компонент занимает всю доступную область. (В целях демонстрации помещен в `div` с изменяемым размером)
+2. Изменение масштаба кнопками на экране и колесом мыши.
+3. Клик по месту на схеме зала пишет в консоль id элемента
+4. Компонент реагирует на изменение массива мест. (В целях демонстрации входной массив меняется через интервал)
+5. На входе компонента массив из 10000 элементов
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
+рабочую версию можно посмотреть тут: https://hall.vercel.app/
 
-### If Using Volar
+___
 
-Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
+##### Заметки
 
-### If Using Vetur
-
-1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
-2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
-3. Open `src/main.ts` in VSCode
-4. Open the VSCode command palette
-5. Search and run "Select TypeScript version" -> "Use workspace version"
+Компонент обновляет входные данные через `setInterval()`, настоящая реактивность на 10000 элементов оказалась слишком дорогой
