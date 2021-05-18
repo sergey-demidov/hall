@@ -201,7 +201,7 @@ export default defineComponent({
       }
     },
     onMouseWheel: function (e: WheelEvent) {
-      if (this.scale <= this.minScale || this.scale >= this.maxScale) {
+      if (this.scale < this.minScale * 1.01 || this.scale > this.maxScale * 1.01) {
         return
       }
       this.scale *= e.deltaY < 0 ? this.scaleFactor : 1 / this.scaleFactor
