@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "plugin:vue/vue3-essential",
+    "@vue/standard",
+    "plugin:vue/essential",
+    "eslint:recommended",
+    "@vue/typescript"
+  ],
+  "rules": {
+    "semi": ["error", "never"]
+  },
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  }
+}
