@@ -118,13 +118,12 @@ export default defineComponent({
       throw new Error('Referenced elements dont exist')
     }
     const box = this.box
-    const hall = this.hallCanvas
     this.resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
       for (const entry of entries) {
         if (entry.target === this.box) {
           const { width, height } = box.getBoundingClientRect()
-          hall.width = width
-          hall.height = height
+          this.hall.width = width
+          this.hall.height = height
           this.fitImage()
         }
       }
@@ -186,9 +185,9 @@ export default defineComponent({
         this.dragging = false
         return
       }
-      const imageX = e.offsetX / this.scale - this.hallWidth / 2 / this.scale +
+      const imageX = e.offsetX / this.scale - this.hall.width / 2 / this.scale +
         this.image.width / 2 - this.translatePos.x
-      const imageY = e.offsetY / this.scale - this.hallHeight / 2 / this.scale +
+      const imageY = e.offsetY / this.scale - this.hall.height / 2 / this.scale +
         this.image.height / 2 - this.translatePos.y
 
       const x = Math.floor(imageX / this.seatFactor)
@@ -200,7 +199,7 @@ export default defineComponent({
         }
       }
     },
-    onMouseWheel: function (e: WheelEvent) {
+    onMouseWheel (e: WheelEvent) {
       if ((e.deltaY >= 0 && this.scale <= this.minScale) || (e.deltaY < 0 && this.scale >= this.maxScale)) {
         return
       }
@@ -252,7 +251,7 @@ export default defineComponent({
       const [imageWidth, imageHeight] = this.imageDimension
 
       let [scaledWidth, scaledHeight] = [imageWidth, imageHeight]
-      while (scaledWidth > this.hallWidth || scaledHeight > this.hallHeight) {
+      while (scaledWidth > this.hall.width || scaledHeight > this.hall.height) {
         this.scale /= this.scaleFactor
         scaledWidth = imageWidth * this.scale
         scaledHeight = imageHeight * this.scale
@@ -292,12 +291,6 @@ export default defineComponent({
         throw new Error('Referenced element "hall" does not exist')
       }
       return this.hallCanvas
-    },
-    hallWidth (): number {
-      return this.hall.width
-    },
-    hallHeight (): number {
-      return this.hall.height
     },
     imageDimension (): number[] {
       const maxCoordinates = this.seats.reduce((memo, seat) => [
